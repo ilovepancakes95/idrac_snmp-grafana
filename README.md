@@ -1,5 +1,5 @@
 # Ultimate iDRAC Grafana Dashboard (Telegraf SNMP Based)
-:computer: :bar_chart: :clipboard:  
+:computer: :bar_chart: :clipboard: :pancakes:  
 SNMP Based Dashboard to Monitor Dell Hosts via iDRAC  
 Grafana Dashboard ID: [12106](https://grafana.com/grafana/dashboards/12106)    
 ![Screenshot 1](https://grafana.com/api/dashboards/12106/images/7943/image)
