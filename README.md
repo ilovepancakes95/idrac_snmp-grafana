@@ -4,7 +4,7 @@ SNMP Based Dashboard to Monitor Dell Hosts via iDRAC
 Grafana Dashboard ID: [12106](https://grafana.com/grafana/dashboards/12106)    
 ![Screenshot 1](https://grafana.com/api/dashboards/12106/images/7943/image)
 ## How To Use
-Enable SNMPv1 in the iDRACs you wish to monitor. Install and setup Telegraf, InfluxDB, and Grafana to work with eachother. Use the provided `idrac-input.conf` file and replace the values for "idracURLx" under "agent" with your own iDRAC IPs or hostnames. Restart Telegraf. Then, import the dashboard json file (or use Grafana Dashboard ID) to add the dashboard and panels to Grafana, selecting your own InfluxDB database after clicking "Import". Data may take up to 2 minutes to fully populate the first time. Enjoy!
+Enable SNMPv1 in the iDRACs you wish to monitor. Install and setup Telegraf, InfluxDB, and Grafana to work with eachother. Use the provided `idrac-input.conf` file and replace the values for "idracURLx" under "agent" with your own iDRAC IPs or hostnames. Restart Telegraf. Then, import the dashboard json file (or use [Grafana Dashboard ID](https://grafana.com/grafana/dashboards/12106)) to add the dashboard and panels to Grafana, selecting your own InfluxDB database after clicking "Import". Data may take up to 2 minutes to fully populate the first time. Enjoy!
 ## Features
 * Uses Grafana variables to dynamically pull in all iDRACs listed in the Telegraf config file, and draw a new "row" section for each iDRAC that gets added.
 * Displays summary table and global status "heat" map of all iDRACs being polled.
