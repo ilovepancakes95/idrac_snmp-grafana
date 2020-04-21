@@ -41,12 +41,6 @@
       "version": "1.0.0"
     },
     {
-      "type": "datasource",
-      "id": "prometheus",
-      "name": "Prometheus",
-      "version": "1.0.0"
-    },
-    {
       "type": "panel",
       "id": "singlestat",
       "name": "Singlestat",
@@ -78,7 +72,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1587416392766,
+  "iteration": 1587504429405,
   "links": [],
   "panels": [
     {
@@ -2918,12 +2912,13 @@
             "rgba(237, 129, 40, 0.89)",
             "rgba(50, 172, 45, 0.97)"
           ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
+          "dateFormat": "MM/DD/YY h:mm:ss a",
+          "decimals": null,
+          "link": false,
           "mappingType": 1,
           "pattern": "log-dates",
           "thresholds": [],
-          "type": "number",
+          "type": "date",
           "unit": "short"
         },
         {
@@ -4239,7 +4234,7 @@
     ]
   },
   "time": {
-    "from": "now-15m",
+    "from": "now-3h",
     "to": "now"
   },
   "timepicker": {
@@ -4263,5 +4258,5 @@
   "variables": {
     "list": []
   },
-  "version": 120
+  "version": 126
 }
