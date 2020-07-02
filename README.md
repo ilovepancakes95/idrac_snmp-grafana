@@ -3,8 +3,6 @@
 SNMP Based Dashboard to Monitor Dell Hosts via iDRAC  
 Grafana Dashboard ID: [12106](https://grafana.com/grafana/dashboards/12106)    
 ![Screenshot 1](https://grafana.com/api/dashboards/12106/images/7943/image)
-## How To Use
-Enable SNMPv1 in the iDRACs you wish to monitor. Install and setup Telegraf, InfluxDB, and Grafana to work with eachother. Use the provided `idrac-input.conf` file (place in `/etc/telegraf/telegraf.d` folder or paste into your main telegraf config) and replace the values for "idracURLx" under "agent" with your own iDRAC IPs or hostnames. Restart Telegraf. Then, import the dashboard json file (or use [Grafana Dashboard ID](https://grafana.com/grafana/dashboards/12106)) to add the dashboard and panels to Grafana, selecting your own InfluxDB database after clicking "Import". Data may take up to 2 minutes to fully populate the first time. Enjoy!
 ## Features
 * Uses Grafana variables to dynamically pull in all iDRACs listed in the Telegraf config file, and draw a new "row" section for each iDRAC that gets added.
 * Displays summary table and global status "heat" map of all iDRACs being polled.
@@ -23,6 +21,17 @@ Enable SNMPv1 in the iDRACs you wish to monitor. Install and setup Telegraf, Inf
   * System Log Entries Table
   * Network Interfaces Table (NIC Name, Vendor, Status, MAC Address)
 * Adding more data is as simple as adding the appropriate iDRAC OID to the Telegraf config file, and adding a panel to display the new data on the dashboard.
+
+## How To Use
+Enable SNMPv1 in the iDRACs you wish to monitor. Install and setup Telegraf, InfluxDB, and Grafana to work with eachother. Use the provided `idrac-input.conf` file (place in `/etc/telegraf/telegraf.d` folder or paste into your main telegraf config) and replace the values for "idracURLx" under "agent" with your own iDRAC IPs or hostnames. Restart Telegraf. Then, import the dashboard json file (or use [Grafana Dashboard ID](https://grafana.com/grafana/dashboards/12106)) to add the dashboard and panels to Grafana, selecting your own InfluxDB database after clicking "Import". Data may take up to 2 minutes to fully populate the first time. Enjoy!
+
+## Prerequirements
+### Telegram:
+net-snmp or snmp installed (snmptable and snmptranslate) 
+### Grafana:
+install the following plugins:
+* [clock](https://grafana.com/grafana/plugins/grafana-clock-panel)
+* [statusmap](https://grafana.com/grafana/plugins/flant-statusmap-panel)
 
 ## Full Screenshot
 This screenshot shows the full dashboard with 3 systems being monitored and displayed.
