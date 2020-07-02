@@ -1079,7 +1079,7 @@
       "timeShift": null,
       "title": "Global Status",
       "type": "singlestat",
-      "valueFontSize": "70%",
+      "valueFontSize": "50%",
       "valueMaps": [
         {
           "op": "=",
@@ -1211,7 +1211,7 @@
       "timeShift": null,
       "title": "Power State",
       "type": "singlestat",
-      "valueFontSize": "70%",
+      "valueFontSize": "50%",
       "valueMaps": [
         {
           "$$hashKey": "object:10134",
@@ -1649,7 +1649,7 @@
           "fill": false,
           "line": true,
           "op": "gt",
-          "value": 70,
+          "value": 50,
           "yaxis": "left"
         },
         {
@@ -1801,7 +1801,7 @@
       "timeShift": null,
       "title": "PSU Status",
       "type": "singlestat",
-      "valueFontSize": "70%",
+      "valueFontSize": "50%",
       "valueMaps": [
         {
           "$$hashKey": "object:20862",
@@ -1935,7 +1935,7 @@
       "timeShift": null,
       "title": "CMOS Battery",
       "type": "singlestat",
-      "valueFontSize": "70%",
+      "valueFontSize": "50%",
       "valueMaps": [
         {
           "op": "=",
@@ -2048,7 +2048,7 @@
       "timeShift": null,
       "title": "RAID Battery",
       "type": "singlestat",
-      "valueFontSize": "70%",
+      "valueFontSize": "50%",
       "valueMaps": [
         {
           "op": "=",
@@ -2288,7 +2288,7 @@
       "timeShift": null,
       "title": "Storage Status",
       "type": "singlestat",
-      "valueFontSize": "70%",
+      "valueFontSize": "50%",
       "valueMaps": [
         {
           "$$hashKey": "object:20862",
@@ -2426,7 +2426,7 @@
       "timeShift": null,
       "title": "RAM Status",
       "type": "singlestat",
-      "valueFontSize": "70%",
+      "valueFontSize": "50%",
       "valueMaps": [
         {
           "$$hashKey": "object:20862",
@@ -2564,7 +2564,7 @@
       "timeShift": null,
       "title": "Thermal Status",
       "type": "singlestat",
-      "valueFontSize": "70%",
+      "valueFontSize": "50%",
       "valueMaps": [
         {
           "$$hashKey": "object:20862",
