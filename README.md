@@ -25,7 +25,7 @@ Grafana Dashboard ID: [12106](https://grafana.com/grafana/dashboards/12106)
 ## How To Use
 Enable SNMPv1 in the iDRACs you wish to monitor. Install and setup Telegraf, InfluxDB, and Grafana to work with eachother. Use the provided `idrac-input.conf` file (place in `/etc/telegraf/telegraf.d` folder or paste into your main telegraf config) and replace the values for "idracURLx" under "agent" with your own iDRAC IPs or hostnames. Restart Telegraf. Then, import the dashboard json file (or use [Grafana Dashboard ID](https://grafana.com/grafana/dashboards/12106)) to add the dashboard and panels to Grafana, selecting your own InfluxDB database after clicking "Import". Data may take up to 2 minutes to fully populate the first time. Enjoy!
 
-## Prerequirements
+## Pre-requirements
 ### Telegram:
 net-snmp or snmp installed (snmptable and snmptranslate) 
 ### Grafana:
