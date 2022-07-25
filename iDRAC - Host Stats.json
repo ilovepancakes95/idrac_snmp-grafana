@@ -9,29 +9,30 @@
       "pluginName": "InfluxDB"
     }
   ],
+  "__elements": [],
   "__requires": [
     {
       "type": "panel",
       "id": "flant-statusmap-panel",
       "name": "Statusmap",
-      "version": "0.2.0"
+      "version": "0.4.2"
     },
     {
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "6.7.2"
+      "version": "8.4.0"
     },
     {
       "type": "panel",
       "id": "grafana-clock-panel",
       "name": "Clock",
-      "version": "1.0.3"
+      "version": "1.3.0"
     },
     {
       "type": "panel",
       "id": "graph",
-      "name": "Graph",
+      "name": "Graph (old)",
       "version": ""
     },
     {
@@ -42,14 +43,14 @@
     },
     {
       "type": "panel",
-      "id": "singlestat",
-      "name": "Singlestat",
+      "id": "stat",
+      "name": "Stat",
       "version": ""
     },
     {
       "type": "panel",
-      "id": "table",
-      "name": "Table",
+      "id": "table-old",
+      "name": "Table (old)",
       "version": ""
     }
   ],
@@ -63,21 +64,27 @@
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
         "name": "Annotations & Alerts",
+        "target": {
+          "limit": 100,
+          "matchAny": false,
+          "tags": [],
+          "type": "dashboard"
+        },
         "type": "dashboard"
       }
     ]
   },
   "description": "SNMP Based Dashboard to Monitor Dell Hosts via iDRAC - by ilovepancakes95",
   "editable": true,
-  "gnetId": null,
+  "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1587504429405,
+  "iteration": 1658758215522,
   "links": [],
+  "liveNow": false,
   "panels": [
     {
       "collapsed": false,
-      "datasource": "${DS_PROMETHEUS-01}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -90,15 +97,15 @@
       "type": "row"
     },
     {
-      "bgColor": null,
-      "cacheTimeout": null,
       "clockType": "24 hour",
       "countdownSettings": {
-        "customFormat": null,
         "endCountdownTime": "2020-04-10T22:05:00.000Z",
         "endText": "00:00:00"
       },
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
       "dateSettings": {
         "dateFormat": "YYYY-MM-DD",
         "fontSize": "20px",
@@ -114,6 +121,39 @@
       "id": 213,
       "links": [],
       "mode": "time",
+      "options": {
+        "bgColor": "",
+        "clockType": "24 hour",
+        "countdownSettings": {
+          "endCountdownTime": "2022-05-16T03:26:04-04:00",
+          "endText": "00:00:00"
+        },
+        "countupSettings": {
+          "beginCountupTime": "2022-05-16T03:26:04-04:00",
+          "beginText": "00:00:00"
+        },
+        "dateSettings": {
+          "dateFormat": "YYYY-MM-DD",
+          "fontSize": "20px",
+          "fontWeight": "normal",
+          "locale": "",
+          "showDate": false
+        },
+        "mode": "time",
+        "refresh": "sec",
+        "timeSettings": {
+          "fontSize": "12px",
+          "fontWeight": "normal"
+        },
+        "timezone": "",
+        "timezoneSettings": {
+          "fontSize": "12px",
+          "fontWeight": "normal",
+          "showTimezone": false,
+          "zoneFormat": "offsetAbbv"
+        }
+      },
+      "pluginVersion": "1.3.0",
       "refreshSettings": {
         "syncWithDashboard": false
       },
@@ -154,14 +194,11 @@
           "tags": []
         }
       ],
-      "timeFrom": null,
       "timeSettings": {
         "customFormat": "HH:mm:ss",
         "fontSize": "32px",
         "fontWeight": "normal"
       },
-      "timeShift": null,
-      "timezone": null,
       "timezoneSettings": {
         "fontSize": "12px",
         "fontWeight": "normal",
@@ -173,7 +210,10 @@
     },
     {
       "columns": [],
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
       "fontSize": "100%",
       "gridPos": {
         "h": 6,
@@ -185,7 +225,6 @@
       "id": 119,
       "interval": "",
       "pageSize": 25,
-      "repeat": null,
       "repeatDirection": "h",
       "showHeader": true,
       "sort": {
@@ -197,7 +236,6 @@
           "$$hashKey": "object:23610",
           "alias": "",
           "align": "center",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -215,7 +253,6 @@
           "$$hashKey": "object:23611",
           "alias": "System Name",
           "align": "center",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -238,7 +275,6 @@
           "$$hashKey": "object:23612",
           "alias": "Service Tag",
           "align": "center",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -352,7 +388,6 @@
           "$$hashKey": "object:23615",
           "alias": "Uptime",
           "align": "center",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -370,7 +405,6 @@
           "$$hashKey": "object:23616",
           "alias": "System Model",
           "align": "center",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -389,7 +423,6 @@
           "$$hashKey": "object:9602",
           "alias": "iDRAC URL",
           "align": "auto",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -615,16 +648,14 @@
         }
       ],
       "timeFrom": "1m",
-      "timeShift": null,
       "title": "System Overview",
       "transform": "table",
-      "type": "table"
+      "type": "table-old"
     },
     {
       "cards": {
         "cardHSpacing": 10,
         "cardMinWidth": 5,
-        "cardRound": null,
         "cardVSpacing": 10
       },
       "color": {
@@ -673,11 +704,10 @@
           }
         ]
       },
-      "data": {
-        "decimals": null,
-        "unitFormat": "short"
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
       },
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
       "gridPos": {
         "h": 6,
         "w": 12,
@@ -691,6 +721,11 @@
         "show": true
       },
       "nullPointMode": "as empty",
+      "pageSize": 15,
+      "seriesFilterIndex": -1,
+      "statusmap": {
+        "ConfigVersion": "v1"
+      },
       "targets": [
         {
           "alias": "[[tag_system-name]]",
@@ -726,44 +761,70 @@
           ]
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Global Status Map",
       "tooltip": {
-        "show": true
+        "extraInfo": "",
+        "freezeOnClick": true,
+        "items": [],
+        "show": true,
+        "showExtraInfo": false,
+        "showItems": false
       },
       "type": "flant-statusmap-panel",
       "useMax": true,
+      "usingPagination": false,
       "xAxis": {
-        "labelFormat": "%a %m/%d",
-        "minBucketWidthToShowWeekends": 4,
-        "show": true,
-        "showCrosshair": true,
-        "showWeekends": true
+        "show": true
       },
       "yAxis": {
-        "show": true,
-        "showCrosshair": false
+        "maxWidth": -1,
+        "minWidth": -1,
+        "show": true
       },
-      "yAxisSort": "metrics"
+      "yAxisSort": "metrics",
+      "yLabel": {
+        "delimiter": "",
+        "labelTemplate": "",
+        "usingSplitLabel": false
+      }
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 3,
@@ -772,42 +833,23 @@
         "y": 4
       },
       "id": 179,
-      "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false,
-        "ymax": null,
-        "ymin": null
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.4.0",
       "targets": [
         {
           "groupBy": [
@@ -847,24 +889,11 @@
           "tags": []
         }
       ],
-      "thresholds": "",
-      "timeFrom": null,
-      "timeShift": null,
       "title": "# of iDRACs",
-      "type": "singlestat",
-      "valueFontSize": "80%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
       "collapsed": false,
-      "datasource": "${DS_PROMETHEUS-01}",
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -878,23 +907,43 @@
       "type": "row"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": true,
-      "colorValue": false,
-      "colors": [
-        "#1F60C4",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
-      "decimals": 1,
-      "format": "s",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "decimals": 1,
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "s"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 2,
@@ -903,44 +952,23 @@
         "y": 8
       },
       "id": 6,
-      "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "$$hashKey": "object:1676",
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "$$hashKey": "object:1677",
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false,
-        "ymax": null,
-        "ymin": null
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.4.0",
       "targets": [
         {
           "groupBy": [],
@@ -968,39 +996,64 @@
           ]
         }
       ],
-      "thresholds": "",
-      "timeFrom": null,
-      "timeShift": null,
       "title": "System Uptime",
-      "type": "singlestat",
-      "valueFontSize": "50%",
-      "valueMaps": [
-        {
-          "$$hashKey": "object:1679",
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": true,
-      "colorValue": false,
-      "colors": [
-        "#FA6400",
-        "#37872D",
-        "#C4162A"
-      ],
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "text": "Other"
+                },
+                "2": {
+                  "text": "Unknown"
+                },
+                "3": {
+                  "text": "OK"
+                },
+                "4": {
+                  "text": "Non-Critical Fail"
+                },
+                "5": {
+                  "text": "Critical Fail"
+                },
+                "6": {
+                  "text": "Non-Recoverable Fail"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#FA6400",
+                "value": null
+              },
+              {
+                "color": "#37872D",
+                "value": 2.9
+              },
+              {
+                "color": "#C4162A",
+                "value": 3.9
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 2,
@@ -1009,42 +1062,23 @@
         "y": 8
       },
       "id": 9,
-      "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false,
-        "ymax": null,
-        "ymin": null
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.4.0",
       "targets": [
         {
           "groupBy": [],
@@ -1074,63 +1108,58 @@
           ]
         }
       ],
-      "thresholds": "2.9,3.9",
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Global Status",
-      "type": "singlestat",
-      "valueFontSize": "50%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "Other",
-          "value": "1"
-        },
-        {
-          "op": "=",
-          "text": "Unknown",
-          "value": "2"
-        },
-        {
-          "op": "=",
-          "text": "OK",
-          "value": "3"
-        },
-        {
-          "op": "=",
-          "text": "Non-Critical Fail",
-          "value": "4"
-        },
-        {
-          "op": "=",
-          "text": "Critical Fail",
-          "value": "5"
-        },
-        {
-          "op": "=",
-          "text": "Non-Recoverable Fail",
-          "value": "6"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": true,
-      "colorValue": false,
-      "colors": [
-        "#C4162A",
-        "#FA6400",
-        "#37872D"
-      ],
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "text": "Other"
+                },
+                "2": {
+                  "text": "Unknown"
+                },
+                "3": {
+                  "text": "Off"
+                },
+                "4": {
+                  "text": "On"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#C4162A",
+                "value": null
+              },
+              {
+                "color": "#FA6400",
+                "value": 2.9
+              },
+              {
+                "color": "#37872D",
+                "value": 3.9
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 2,
@@ -1139,44 +1168,23 @@
         "y": 8
       },
       "id": 2,
-      "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "$$hashKey": "object:10131",
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "$$hashKey": "object:10132",
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false,
-        "ymax": null,
-        "ymin": null
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.4.0",
       "targets": [
         {
           "groupBy": [],
@@ -1206,57 +1214,46 @@
           ]
         }
       ],
-      "thresholds": "2.9,3.9",
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Power State",
-      "type": "singlestat",
-      "valueFontSize": "50%",
-      "valueMaps": [
-        {
-          "$$hashKey": "object:10134",
-          "op": "=",
-          "text": "Other",
-          "value": "1"
-        },
-        {
-          "$$hashKey": "object:10135",
-          "op": "=",
-          "text": "Unknown",
-          "value": "2"
-        },
-        {
-          "$$hashKey": "object:10136",
-          "op": "=",
-          "text": "Off",
-          "value": "3"
-        },
-        {
-          "$$hashKey": "object:10137",
-          "op": "=",
-          "text": "On",
-          "value": "4"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 2,
@@ -1265,42 +1262,23 @@
         "y": 8
       },
       "id": 8,
-      "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false,
-        "ymax": null,
-        "ymin": null
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.4.0",
       "targets": [
         {
           "groupBy": [],
@@ -1330,30 +1308,26 @@
           ]
         }
       ],
-      "thresholds": "",
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Service Tag",
-      "type": "singlestat",
-      "valueFontSize": "50%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
       "aliasColors": {
         "System Watts": "rgb(91, 151, 235)"
       },
       "bars": false,
-      "cacheTimeout": null,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1378,9 +1352,10 @@
       "links": [],
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "8.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1451,9 +1426,7 @@
           "yaxis": "left"
         }
       ],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "System Watts",
       "tooltip": {
         "shared": true,
@@ -1462,33 +1435,24 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
       "yaxes": [
         {
           "format": "watt",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
@@ -1499,8 +1463,17 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
       "decimals": 0,
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -1524,9 +1497,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "8.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -1649,7 +1623,7 @@
           "fill": false,
           "line": true,
           "op": "gt",
-          "value": 50,
+          "value": 70,
           "yaxis": "left"
         },
         {
@@ -1663,9 +1637,7 @@
           "yaxis": "left"
         }
       ],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "CPU Temp",
       "tooltip": {
         "shared": true,
@@ -1674,9 +1646,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -1684,43 +1654,74 @@
         {
           "decimals": 0,
           "format": "celsius",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": true,
-      "colorValue": false,
-      "colors": [
-        "#FA6400",
-        "#37872D",
-        "#C4162A"
-      ],
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "text": "Other"
+                },
+                "2": {
+                  "text": "Unknown"
+                },
+                "3": {
+                  "text": "OK"
+                },
+                "4": {
+                  "text": "Non-Critical Fail"
+                },
+                "5": {
+                  "text": "Critical Fail"
+                },
+                "6": {
+                  "text": "Non-Recoverable Fail"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#FA6400",
+                "value": null
+              },
+              {
+                "color": "#37872D",
+                "value": 2.9
+              },
+              {
+                "color": "#C4162A",
+                "value": 3.9
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 2,
@@ -1729,44 +1730,23 @@
         "y": 10
       },
       "id": 444,
-      "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "$$hashKey": "object:20859",
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "$$hashKey": "object:20860",
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false,
-        "ymax": null,
-        "ymin": null
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.4.0",
       "targets": [
         {
           "groupBy": [],
@@ -1796,69 +1776,55 @@
           ]
         }
       ],
-      "thresholds": "2.9,3.9",
-      "timeFrom": null,
-      "timeShift": null,
       "title": "PSU Status",
-      "type": "singlestat",
-      "valueFontSize": "50%",
-      "valueMaps": [
-        {
-          "$$hashKey": "object:20862",
-          "op": "=",
-          "text": "Other",
-          "value": "1"
-        },
-        {
-          "$$hashKey": "object:20863",
-          "op": "=",
-          "text": "Unknown",
-          "value": "2"
-        },
-        {
-          "$$hashKey": "object:20864",
-          "op": "=",
-          "text": "OK",
-          "value": "3"
-        },
-        {
-          "$$hashKey": "object:20865",
-          "op": "=",
-          "text": "Non-Critical Fail",
-          "value": "4"
-        },
-        {
-          "$$hashKey": "object:20866",
-          "op": "=",
-          "text": "Critical Fail",
-          "value": "5"
-        },
-        {
-          "$$hashKey": "object:20867",
-          "op": "=",
-          "text": "Non-Recoverable Fail",
-          "value": "6"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": true,
-      "colorValue": false,
-      "colors": [
-        "#E0B400",
-        "#C4162A",
-        "#37872D"
-      ],
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "text": "Predictive Fail"
+                },
+                "2": {
+                  "text": "Failed"
+                },
+                "4": {
+                  "text": "OK"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#E0B400",
+                "value": null
+              },
+              {
+                "color": "#C4162A",
+                "value": 1.9
+              },
+              {
+                "color": "#37872D",
+                "value": 3.9
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 2,
@@ -1867,42 +1833,23 @@
         "y": 10
       },
       "id": 90,
-      "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false,
-        "ymax": null,
-        "ymin": null
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.4.0",
       "targets": [
         {
           "groupBy": [],
@@ -1930,48 +1877,67 @@
           ]
         }
       ],
-      "thresholds": "1.9,3.9",
-      "timeFrom": null,
-      "timeShift": null,
       "title": "CMOS Battery",
-      "type": "singlestat",
-      "valueFontSize": "50%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "Predictive Fail",
-          "value": "1"
-        },
-        {
-          "op": "=",
-          "text": "Failed",
-          "value": "2"
-        },
-        {
-          "op": "=",
-          "text": "OK",
-          "value": "4"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": true,
-      "colorValue": false,
-      "colors": [
-        "#E0B400",
-        "#37872D",
-        "#C4162A"
-      ],
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "text": "Unknown"
+                },
+                "2": {
+                  "text": "Ready"
+                },
+                "3": {
+                  "text": "Failed"
+                },
+                "4": {
+                  "text": "Degraded"
+                },
+                "5": {
+                  "text": "Missing"
+                },
+                "6": {
+                  "text": "Charging"
+                },
+                "7": {
+                  "text": "Below Threshold"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#E0B400",
+                "value": null
+              },
+              {
+                "color": "#37872D",
+                "value": 2
+              },
+              {
+                "color": "#C4162A",
+                "value": 2.9
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 2,
@@ -1980,42 +1946,23 @@
         "y": 10
       },
       "id": 91,
-      "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false,
-        "ymax": null,
-        "ymin": null
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.4.0",
       "targets": [
         {
           "groupBy": [],
@@ -2043,68 +1990,46 @@
           ]
         }
       ],
-      "thresholds": "2,2.9",
-      "timeFrom": null,
-      "timeShift": null,
       "title": "RAID Battery",
-      "type": "singlestat",
-      "valueFontSize": "50%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "Unknown",
-          "value": "1"
-        },
-        {
-          "op": "=",
-          "text": "Ready",
-          "value": "2"
-        },
-        {
-          "op": "=",
-          "text": "Failed",
-          "value": "3"
-        },
-        {
-          "op": "=",
-          "text": "Degraded",
-          "value": "4"
-        },
-        {
-          "op": "=",
-          "text": "Missing",
-          "value": "5"
-        },
-        {
-          "op": "=",
-          "text": "Charging",
-          "value": "6"
-        },
-        {
-          "op": "=",
-          "text": "Below Threshold",
-          "value": "7"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": false,
-      "colors": [
-        "#299c46",
-        "rgba(237, 129, 40, 0.89)",
-        "#d44a3a"
-      ],
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "match": "null",
+                "result": {
+                  "text": "N/A"
+                }
+              },
+              "type": "special"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 2,
@@ -2113,42 +2038,23 @@
         "y": 10
       },
       "id": 21,
-      "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false,
-        "ymax": null,
-        "ymin": null
+      "options": {
+        "colorMode": "none",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.4.0",
       "targets": [
         {
           "groupBy": [],
@@ -2176,38 +2082,64 @@
           ]
         }
       ],
-      "thresholds": "",
-      "timeFrom": null,
-      "timeShift": null,
       "title": "BIOS Version",
-      "type": "singlestat",
-      "valueFontSize": "50%",
-      "valueMaps": [
-        {
-          "op": "=",
-          "text": "N/A",
-          "value": "null"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": true,
-      "colorValue": false,
-      "colors": [
-        "#FA6400",
-        "#37872D",
-        "#C4162A"
-      ],
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "text": "Other"
+                },
+                "2": {
+                  "text": "Unknown"
+                },
+                "3": {
+                  "text": "OK"
+                },
+                "4": {
+                  "text": "Non-Critical Fail"
+                },
+                "5": {
+                  "text": "Critical Fail"
+                },
+                "6": {
+                  "text": "Non-Recoverable Fail"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#FA6400",
+                "value": null
+              },
+              {
+                "color": "#37872D",
+                "value": 2.9
+              },
+              {
+                "color": "#C4162A",
+                "value": 3.9
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 2,
@@ -2216,44 +2148,23 @@
         "y": 12
       },
       "id": 405,
-      "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "$$hashKey": "object:20859",
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "$$hashKey": "object:20860",
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false,
-        "ymax": null,
-        "ymin": null
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.4.0",
       "targets": [
         {
           "groupBy": [],
@@ -2283,69 +2194,64 @@
           ]
         }
       ],
-      "thresholds": "2.9,3.9",
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Storage Status",
-      "type": "singlestat",
-      "valueFontSize": "50%",
-      "valueMaps": [
-        {
-          "$$hashKey": "object:20862",
-          "op": "=",
-          "text": "Other",
-          "value": "1"
-        },
-        {
-          "$$hashKey": "object:20863",
-          "op": "=",
-          "text": "Unknown",
-          "value": "2"
-        },
-        {
-          "$$hashKey": "object:20864",
-          "op": "=",
-          "text": "OK",
-          "value": "3"
-        },
-        {
-          "$$hashKey": "object:20865",
-          "op": "=",
-          "text": "Non-Critical Fail",
-          "value": "4"
-        },
-        {
-          "$$hashKey": "object:20866",
-          "op": "=",
-          "text": "Critical Fail",
-          "value": "5"
-        },
-        {
-          "$$hashKey": "object:20867",
-          "op": "=",
-          "text": "Non-Recoverable Fail",
-          "value": "6"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": true,
-      "colorValue": false,
-      "colors": [
-        "#FA6400",
-        "#37872D",
-        "#C4162A"
-      ],
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "text": "Other"
+                },
+                "2": {
+                  "text": "Unknown"
+                },
+                "3": {
+                  "text": "OK"
+                },
+                "4": {
+                  "text": "Non-Critical Fail"
+                },
+                "5": {
+                  "text": "Critical Fail"
+                },
+                "6": {
+                  "text": "Non-Recoverable Fail"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#FA6400",
+                "value": null
+              },
+              {
+                "color": "#37872D",
+                "value": 2.9
+              },
+              {
+                "color": "#C4162A",
+                "value": 3.9
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 2,
@@ -2354,44 +2260,23 @@
         "y": 12
       },
       "id": 406,
-      "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "$$hashKey": "object:20859",
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "$$hashKey": "object:20860",
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false,
-        "ymax": null,
-        "ymin": null
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.4.0",
       "targets": [
         {
           "groupBy": [],
@@ -2421,69 +2306,64 @@
           ]
         }
       ],
-      "thresholds": "2.9,3.9",
-      "timeFrom": null,
-      "timeShift": null,
       "title": "RAM Status",
-      "type": "singlestat",
-      "valueFontSize": "50%",
-      "valueMaps": [
-        {
-          "$$hashKey": "object:20862",
-          "op": "=",
-          "text": "Other",
-          "value": "1"
-        },
-        {
-          "$$hashKey": "object:20863",
-          "op": "=",
-          "text": "Unknown",
-          "value": "2"
-        },
-        {
-          "$$hashKey": "object:20864",
-          "op": "=",
-          "text": "OK",
-          "value": "3"
-        },
-        {
-          "$$hashKey": "object:20865",
-          "op": "=",
-          "text": "Non-Critical Fail",
-          "value": "4"
-        },
-        {
-          "$$hashKey": "object:20866",
-          "op": "=",
-          "text": "Critical Fail",
-          "value": "5"
-        },
-        {
-          "$$hashKey": "object:20867",
-          "op": "=",
-          "text": "Non-Recoverable Fail",
-          "value": "6"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": true,
-      "colorValue": false,
-      "colors": [
-        "#FA6400",
-        "#37872D",
-        "#C4162A"
-      ],
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "text": "Other"
+                },
+                "2": {
+                  "text": "Unknown"
+                },
+                "3": {
+                  "text": "OK"
+                },
+                "4": {
+                  "text": "Non-Critical Fail"
+                },
+                "5": {
+                  "text": "Critical Fail"
+                },
+                "6": {
+                  "text": "Non-Recoverable Fail"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#FA6400",
+                "value": null
+              },
+              {
+                "color": "#37872D",
+                "value": 2.9
+              },
+              {
+                "color": "#C4162A",
+                "value": 3.9
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 2,
@@ -2492,44 +2372,23 @@
         "y": 12
       },
       "id": 407,
-      "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "$$hashKey": "object:20859",
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "$$hashKey": "object:20860",
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false,
-        "ymax": null,
-        "ymin": null
+      "options": {
+        "colorMode": "background",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.4.0",
       "targets": [
         {
           "groupBy": [],
@@ -2559,69 +2418,58 @@
           ]
         }
       ],
-      "thresholds": "2.9,3.9",
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Thermal Status",
-      "type": "singlestat",
-      "valueFontSize": "50%",
-      "valueMaps": [
-        {
-          "$$hashKey": "object:20862",
-          "op": "=",
-          "text": "Other",
-          "value": "1"
-        },
-        {
-          "$$hashKey": "object:20863",
-          "op": "=",
-          "text": "Unknown",
-          "value": "2"
-        },
-        {
-          "$$hashKey": "object:20864",
-          "op": "=",
-          "text": "OK",
-          "value": "3"
-        },
-        {
-          "$$hashKey": "object:20865",
-          "op": "=",
-          "text": "Non-Critical Fail",
-          "value": "4"
-        },
-        {
-          "$$hashKey": "object:20866",
-          "op": "=",
-          "text": "Critical Fail",
-          "value": "5"
-        },
-        {
-          "$$hashKey": "object:20867",
-          "op": "=",
-          "text": "Non-Recoverable Fail",
-          "value": "6"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
-      "cacheTimeout": null,
-      "colorBackground": false,
-      "colorValue": true,
-      "colors": [
-        "#299c46",
-        "#C4162A",
-        "#E0B400"
-      ],
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
-      "format": "none",
-      "gauge": {
-        "maxValue": 100,
-        "minValue": 0,
-        "show": false,
-        "thresholdLabels": false,
-        "thresholdMarkers": true
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [
+            {
+              "options": {
+                "1": {
+                  "text": "No Breach"
+                },
+                "2": {
+                  "text": "Current Breach"
+                },
+                "3": {
+                  "text": "Prior Breach"
+                },
+                "4": {
+                  "text": "Sensor Fail"
+                }
+              },
+              "type": "value"
+            }
+          ],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "#299c46",
+                "value": null
+              },
+              {
+                "color": "#C4162A",
+                "value": 1.9
+              },
+              {
+                "color": "#E0B400",
+                "value": 3.9
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 2,
@@ -2630,44 +2478,23 @@
         "y": 12
       },
       "id": 93,
-      "interval": null,
       "links": [],
-      "mappingType": 1,
-      "mappingTypes": [
-        {
-          "$$hashKey": "object:685",
-          "name": "value to text",
-          "value": 1
-        },
-        {
-          "$$hashKey": "object:686",
-          "name": "range to text",
-          "value": 2
-        }
-      ],
       "maxDataPoints": 100,
-      "nullPointMode": "connected",
-      "nullText": null,
-      "postfix": "",
-      "postfixFontSize": "50%",
-      "prefix": "",
-      "prefixFontSize": "50%",
-      "rangeMaps": [
-        {
-          "from": "null",
-          "text": "N/A",
-          "to": "null"
-        }
-      ],
-      "sparkline": {
-        "fillColor": "rgba(31, 118, 189, 0.18)",
-        "full": false,
-        "lineColor": "rgb(31, 120, 193)",
-        "show": false,
-        "ymax": null,
-        "ymin": null
+      "options": {
+        "colorMode": "value",
+        "graphMode": "none",
+        "justifyMode": "auto",
+        "orientation": "horizontal",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "textMode": "auto"
       },
-      "tableColumn": "",
+      "pluginVersion": "8.4.0",
       "targets": [
         {
           "groupBy": [],
@@ -2695,44 +2522,15 @@
           ]
         }
       ],
-      "thresholds": "1.9,3.9",
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Intrusion",
-      "type": "singlestat",
-      "valueFontSize": "50%",
-      "valueMaps": [
-        {
-          "$$hashKey": "object:688",
-          "op": "=",
-          "text": "No Breach",
-          "value": "1"
-        },
-        {
-          "$$hashKey": "object:689",
-          "op": "=",
-          "text": "Current Breach",
-          "value": "2"
-        },
-        {
-          "$$hashKey": "object:690",
-          "op": "=",
-          "text": "Prior Breach",
-          "value": "3"
-        },
-        {
-          "$$hashKey": "object:691",
-          "op": "=",
-          "text": "Sensor Fail",
-          "value": "4"
-        }
-      ],
-      "valueName": "current"
+      "type": "stat"
     },
     {
-      "cacheTimeout": null,
       "columns": [],
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
       "fontSize": "90%",
       "gridPos": {
         "h": 3,
@@ -2742,7 +2540,6 @@
       },
       "id": 649,
       "links": [],
-      "pageSize": null,
       "pluginVersion": "6.7.2",
       "showHeader": true,
       "sort": {
@@ -2762,7 +2559,6 @@
           "$$hashKey": "object:4195",
           "alias": "OS Name",
           "align": "auto",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -2780,7 +2576,6 @@
           "$$hashKey": "object:4214",
           "alias": "OS Version",
           "align": "auto",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -2849,16 +2644,16 @@
           ]
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "OS Information",
-      "transform": "table",
-      "type": "table"
+      "transform": "timeseries_to_rows",
+      "type": "table-old"
     },
     {
-      "cacheTimeout": null,
       "columns": [],
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
       "fontSize": "100%",
       "gridPos": {
         "h": 19,
@@ -2888,7 +2683,6 @@
           "$$hashKey": "object:1967",
           "alias": "Entry #",
           "align": "auto",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -2906,14 +2700,12 @@
           "$$hashKey": "object:1968",
           "alias": "Date & Time",
           "align": "center",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
             "rgba(50, 172, 45, 0.97)"
           ],
           "dateFormat": "MM/DD/YY h:mm:ss a",
-          "decimals": null,
           "link": false,
           "mappingType": 1,
           "pattern": "log-dates",
@@ -2925,7 +2717,6 @@
           "$$hashKey": "object:1969",
           "alias": "Entry",
           "align": "auto",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -3097,10 +2888,9 @@
         }
       ],
       "timeFrom": "1m",
-      "timeShift": null,
       "title": "System Log Entries",
       "transform": "table",
-      "type": "table"
+      "type": "table-old"
     },
     {
       "aliasColors": {
@@ -3110,8 +2900,17 @@
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
       "decimals": 0,
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 1,
       "fillGradient": 0,
       "gridPos": {
@@ -3135,9 +2934,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "8.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -3263,9 +3063,7 @@
           "yaxis": "left"
         }
       ],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Air Temp",
       "tooltip": {
         "shared": true,
@@ -3274,9 +3072,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -3284,29 +3080,25 @@
         {
           "decimals": 0,
           "format": "celsius",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
       "columns": [],
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
       "fontSize": "100%",
       "gridPos": {
         "h": 16,
@@ -3315,7 +3107,6 @@
         "y": 17
       },
       "id": 298,
-      "pageSize": null,
       "showHeader": true,
       "sort": {
         "col": 0,
@@ -3334,7 +3125,6 @@
           "$$hashKey": "object:15373",
           "alias": "Disk Name",
           "align": "auto",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -3360,7 +3150,6 @@
             "#8F3BB8"
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": null,
           "mappingType": 1,
           "pattern": "disks-state",
           "thresholds": [
@@ -3459,7 +3248,6 @@
           "$$hashKey": "object:15376",
           "alias": "Capacity",
           "align": "auto",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -3575,18 +3363,25 @@
           ]
         }
       ],
-      "timeFrom": null,
-      "timeShift": null,
       "title": "Physical Disk Status",
       "transform": "table",
-      "type": "table"
+      "type": "table-old"
     },
     {
       "aliasColors": {},
       "bars": false,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "links": []
+        },
+        "overrides": []
+      },
       "fill": 0,
       "fillGradient": 0,
       "gridPos": {
@@ -3610,9 +3405,10 @@
       "linewidth": 1,
       "nullPointMode": "null",
       "options": {
-        "dataLinks": []
+        "alertThreshold": true
       },
       "percentage": false,
+      "pluginVersion": "8.4.0",
       "pointradius": 2,
       "points": false,
       "renderer": "flot",
@@ -3900,9 +3696,7 @@
           "yaxis": "left"
         }
       ],
-      "timeFrom": null,
       "timeRegions": [],
-      "timeShift": null,
       "title": "Fan Speed",
       "tooltip": {
         "shared": true,
@@ -3911,9 +3705,7 @@
       },
       "type": "graph",
       "xaxis": {
-        "buckets": null,
         "mode": "time",
-        "name": null,
         "show": true,
         "values": []
       },
@@ -3924,28 +3716,25 @@
           "format": "none",
           "label": "RPM",
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         },
         {
           "$$hashKey": "object:1153",
           "format": "short",
-          "label": null,
           "logBase": 1,
-          "max": null,
-          "min": null,
           "show": true
         }
       ],
       "yaxis": {
-        "align": false,
-        "alignLevel": null
+        "align": false
       }
     },
     {
       "columns": [],
-      "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
+      "datasource": {
+        "type": "influxdb",
+        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+      },
       "fontSize": "100%",
       "gridPos": {
         "h": 6,
@@ -3954,7 +3743,6 @@
         "y": 27
       },
       "id": 564,
-      "pageSize": null,
       "showHeader": true,
       "sort": {
         "col": 1,
@@ -3973,7 +3761,6 @@
           "$$hashKey": "object:3334",
           "alias": "Name",
           "align": "auto",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -3991,7 +3778,6 @@
           "$$hashKey": "object:3385",
           "alias": "Vendor",
           "align": "auto",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -4016,7 +3802,6 @@
             "#C4162A"
           ],
           "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": null,
           "mappingType": 1,
           "pattern": "nic-status",
           "thresholds": [
@@ -4072,7 +3857,6 @@
           "$$hashKey": "object:3459",
           "alias": "Current MAC Address",
           "align": "auto",
-          "colorMode": null,
           "colors": [
             "rgba(245, 54, 54, 0.9)",
             "rgba(237, 129, 40, 0.89)",
@@ -4192,14 +3976,13 @@
         }
       ],
       "timeFrom": "1m",
-      "timeShift": null,
       "title": "Network Interfaces",
       "transform": "table",
-      "type": "table"
+      "type": "table-old"
     }
   ],
   "refresh": "10s",
-  "schemaVersion": 22,
+  "schemaVersion": 35,
   "style": "dark",
   "tags": [
     "idrac",
@@ -4209,13 +3992,14 @@
   "templating": {
     "list": [
       {
-        "allValue": null,
         "current": {},
-        "datasource": "${DS_INFLUXDB_(GRAFANA-01)}",
+        "datasource": {
+          "type": "influxdb",
+          "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        },
         "definition": "SHOW TAG VALUES FROM \"idrac-hosts\" WITH KEY=\"system-name\"",
         "hide": 0,
         "includeAll": true,
-        "index": -1,
         "label": "iDRAC Host",
         "multi": true,
         "name": "idrac_host",
@@ -4226,7 +4010,6 @@
         "skipUrlSync": false,
         "sort": 1,
         "tagValuesQuery": "",
-        "tags": [],
         "tagsQuery": "",
         "type": "query",
         "useTags": false
@@ -4255,8 +4038,6 @@
   "timezone": "",
   "title": "iDRAC - Host Stats",
   "uid": "O19gr0jZk",
-  "variables": {
-    "list": []
-  },
-  "version": 126
+  "version": 131,
+  "weekStart": ""
 }
