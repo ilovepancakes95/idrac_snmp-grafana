@@ -1,39 +1,27 @@
 {
   "__inputs": [
     {
-      "name": "DS_INFLUXDB_(GRAFANA-01)",
-      "label": "InfluxDB (grafana-01)",
+      "name": "DS_INFLUXDB_- IDRAC",
+      "label": "influxdb - idrac",
       "description": "",
       "type": "datasource",
       "pluginId": "influxdb",
       "pluginName": "InfluxDB"
     }
   ],
-  "__elements": [],
+  "__elements": {},
   "__requires": [
-    {
-      "type": "panel",
-      "id": "flant-statusmap-panel",
-      "name": "Statusmap",
-      "version": "0.4.2"
-    },
     {
       "type": "grafana",
       "id": "grafana",
       "name": "Grafana",
-      "version": "8.4.0"
+      "version": "11.0.0"
     },
     {
       "type": "panel",
       "id": "grafana-clock-panel",
       "name": "Clock",
-      "version": "1.3.0"
-    },
-    {
-      "type": "panel",
-      "id": "graph",
-      "name": "Graph (old)",
-      "version": ""
+      "version": "2.1.5"
     },
     {
       "type": "datasource",
@@ -49,8 +37,20 @@
     },
     {
       "type": "panel",
-      "id": "table-old",
-      "name": "Table (old)",
+      "id": "status-history",
+      "name": "Status history",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "table",
+      "name": "Table",
+      "version": ""
+    },
+    {
+      "type": "panel",
+      "id": "timeseries",
+      "name": "Time series",
       "version": ""
     }
   ],
@@ -59,7 +59,10 @@
       {
         "$$hashKey": "object:208",
         "builtIn": 1,
-        "datasource": "-- Grafana --",
+        "datasource": {
+          "type": "datasource",
+          "uid": "grafana"
+        },
         "enable": true,
         "hide": true,
         "iconColor": "rgba(0, 211, 255, 1)",
@@ -77,14 +80,18 @@
   "description": "SNMP Based Dashboard to Monitor Dell Hosts via iDRAC - by ilovepancakes95",
   "editable": true,
   "fiscalYearStartMonth": 0,
+  "gnetId": 12106,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1658758215522,
   "links": [],
   "liveNow": false,
   "panels": [
     {
       "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "b478bc1e-c4b0-421a-a56f-5fd65e0cafe7"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -93,6 +100,15 @@
       },
       "id": 182,
       "panels": [],
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "b478bc1e-c4b0-421a-a56f-5fd65e0cafe7"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "iDRAC Summary",
       "type": "row"
     },
@@ -104,7 +120,7 @@
       },
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
       "dateSettings": {
         "dateFormat": "YYYY-MM-DD",
@@ -119,7 +135,6 @@
         "y": 1
       },
       "id": 213,
-      "links": [],
       "mode": "time",
       "options": {
         "bgColor": "",
@@ -139,6 +154,7 @@
           "locale": "",
           "showDate": false
         },
+        "fontMono": false,
         "mode": "time",
         "refresh": "sec",
         "timeSettings": {
@@ -153,12 +169,16 @@
           "zoneFormat": "offsetAbbv"
         }
       },
-      "pluginVersion": "1.3.0",
+      "pluginVersion": "2.1.5",
       "refreshSettings": {
         "syncWithDashboard": false
       },
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -209,12 +229,354 @@
       "type": "grafana-clock-panel"
     },
     {
-      "columns": [],
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
-      "fontSize": "100%",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.hidden",
+                "value": true
+              },
+              {
+                "id": "custom.align",
+                "value": "center"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "system-name"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "System Name"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "links",
+                "value": [
+                  {
+                    "targetBlank": true,
+                    "title": "Launch iDRAC Web Interface",
+                    "url": "${__data.fields.idrac-url:raw}"
+                  }
+                ]
+              },
+              {
+                "id": "custom.align",
+                "value": "center"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "system-servicetag"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Service Tag"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align",
+                "value": "center"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "power-state"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Power State"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "custom.align",
+                "value": "center"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "#C4162A",
+                      "value": null
+                    },
+                    {
+                      "color": "#FA6400",
+                      "value": 2
+                    },
+                    {
+                      "color": "#37872D",
+                      "value": 3
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "1": {
+                        "index": 0,
+                        "text": "Other"
+                      },
+                      "2": {
+                        "index": 1,
+                        "text": "Unkown"
+                      },
+                      "3": {
+                        "index": 2,
+                        "text": "Off"
+                      },
+                      "4": {
+                        "index": 3,
+                        "text": "On"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "system-globalstatus"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Global Status"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "custom.align",
+                "value": "center"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "#E0B400",
+                      "value": null
+                    },
+                    {
+                      "color": "#C4162A",
+                      "value": 2.9
+                    },
+                    {
+                      "color": "#37872D",
+                      "value": 3
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "1": {
+                        "index": 0,
+                        "text": "Other"
+                      },
+                      "2": {
+                        "index": 1,
+                        "text": "Unkown"
+                      },
+                      "3": {
+                        "index": 5,
+                        "text": "OK"
+                      },
+                      "4": {
+                        "index": 2,
+                        "text": "Non-Critical Failure"
+                      },
+                      "5": {
+                        "index": 3,
+                        "text": "Critical Failure"
+                      },
+                      "6": {
+                        "index": 4,
+                        "text": "Non-Recoverable Failure"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "system-uptime"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Uptime"
+              },
+              {
+                "id": "unit",
+                "value": "s"
+              },
+              {
+                "id": "decimals",
+                "value": 1
+              },
+              {
+                "id": "custom.align",
+                "value": "center"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "system-model"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "System Model"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align",
+                "value": "center"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "idrac-url"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "iDRAC URL"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.hidden",
+                "value": true
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          }
+        ]
+      },
       "gridPos": {
         "h": 6,
         "w": 10,
@@ -224,222 +586,26 @@
       "hideTimeOverride": false,
       "id": 119,
       "interval": "",
-      "pageSize": 25,
-      "repeatDirection": "h",
-      "showHeader": true,
-      "sort": {
-        "col": 1,
-        "desc": false
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
       },
-      "styles": [
-        {
-          "$$hashKey": "object:23610",
-          "alias": "",
-          "align": "center",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "Time",
-          "thresholds": [],
-          "type": "hidden",
-          "unit": "short"
-        },
-        {
-          "$$hashKey": "object:23611",
-          "alias": "System Name",
-          "align": "center",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": true,
-          "linkTargetBlank": true,
-          "linkTooltip": "Launch iDRAC Web Interface",
-          "linkUrl": "${__cell_2:raw}",
-          "mappingType": 1,
-          "pattern": "system-name",
-          "preserveFormat": false,
-          "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        },
-        {
-          "$$hashKey": "object:23612",
-          "alias": "Service Tag",
-          "align": "center",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "system-servicetag",
-          "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        },
-        {
-          "$$hashKey": "object:23613",
-          "alias": "Power State",
-          "align": "center",
-          "colorMode": "cell",
-          "colors": [
-            "#C4162A",
-            "#FA6400",
-            "#37872D"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "power-state",
-          "thresholds": [
-            "2.9",
-            "3.9"
-          ],
-          "type": "string",
-          "unit": "short",
-          "valueMaps": [
-            {
-              "$$hashKey": "object:23697",
-              "text": "Other",
-              "value": "1"
-            },
-            {
-              "$$hashKey": "object:23698",
-              "text": "Unknown",
-              "value": "2"
-            },
-            {
-              "$$hashKey": "object:23699",
-              "text": "Off",
-              "value": "3"
-            },
-            {
-              "$$hashKey": "object:23700",
-              "text": "On",
-              "value": "4"
-            }
-          ]
-        },
-        {
-          "$$hashKey": "object:23614",
-          "alias": "Global Status",
-          "align": "center",
-          "colorMode": "cell",
-          "colors": [
-            "#E0B400",
-            "#37872D",
-            "#C4162A"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "system-globalstatus",
-          "thresholds": [
-            "2.9",
-            "3.9"
-          ],
-          "type": "string",
-          "unit": "short",
-          "valueMaps": [
-            {
-              "$$hashKey": "object:23721",
-              "text": "Other",
-              "value": "1"
-            },
-            {
-              "$$hashKey": "object:23722",
-              "text": "Unknown",
-              "value": "2"
-            },
-            {
-              "$$hashKey": "object:23723",
-              "text": "Non-Critical Failure",
-              "value": "4"
-            },
-            {
-              "$$hashKey": "object:23724",
-              "text": "Critical Failure",
-              "value": "5"
-            },
-            {
-              "$$hashKey": "object:23725",
-              "text": "Non-Recoverable Failure",
-              "value": "6"
-            },
-            {
-              "$$hashKey": "object:23726",
-              "text": "OK",
-              "value": "3"
-            }
-          ]
-        },
-        {
-          "$$hashKey": "object:23615",
-          "alias": "Uptime",
-          "align": "center",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 1,
-          "mappingType": 1,
-          "pattern": "system-uptime",
-          "thresholds": [],
-          "type": "number",
-          "unit": "s"
-        },
-        {
-          "$$hashKey": "object:23616",
-          "alias": "System Model",
-          "align": "center",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "system-model",
-          "preserveFormat": false,
-          "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        },
-        {
-          "$$hashKey": "object:9602",
-          "alias": "iDRAC URL",
-          "align": "auto",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "mappingType": 1,
-          "pattern": "idrac-url",
-          "thresholds": [],
-          "type": "hidden",
-          "unit": "short"
-        }
-      ],
+      "pluginVersion": "11.0.0",
+      "repeatDirection": "h",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -474,6 +640,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -511,6 +681,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -545,6 +719,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -579,6 +757,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -613,6 +795,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -647,66 +833,52 @@
           ]
         }
       ],
-      "timeFrom": "1m",
       "title": "System Overview",
-      "transform": "table",
-      "type": "table-old"
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {
+            "reducers": []
+          }
+        }
+      ],
+      "type": "table"
     },
     {
-      "cards": {
-        "cardHSpacing": 10,
-        "cardMinWidth": 5,
-        "cardVSpacing": 10
-      },
-      "color": {
-        "cardColor": "#b4ff00",
-        "colorScale": "sqrt",
-        "colorScheme": "interpolateGnYlRd",
-        "defaultColor": "#757575",
-        "exponent": 0.5,
-        "mode": "discrete",
-        "thresholds": [
-          {
-            "$$hashKey": "object:2501",
-            "color": "#FF780A",
-            "tooltip": "Other",
-            "value": "1"
-          },
-          {
-            "$$hashKey": "object:2508",
-            "color": "#E0B400",
-            "tooltip": "Unknown",
-            "value": "2"
-          },
-          {
-            "$$hashKey": "object:2512",
-            "color": "#37872D",
-            "tooltip": "OK",
-            "value": "3"
-          },
-          {
-            "$$hashKey": "object:2519",
-            "color": "rgba(224, 47, 68, 0.81)",
-            "tooltip": "Non-Critical Fail",
-            "value": "4"
-          },
-          {
-            "$$hashKey": "object:2526",
-            "color": "rgba(196, 22, 42, 0.68)",
-            "tooltip": "Critical Fail",
-            "value": "5"
-          },
-          {
-            "$$hashKey": "object:2530",
-            "color": "#1F60C4",
-            "tooltip": "Non-Recoverable Fail",
-            "value": "6"
-          }
-        ]
-      },
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "custom": {
+            "fillOpacity": 64,
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "lineWidth": 3
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": []
       },
       "gridPos": {
         "h": 6,
@@ -714,21 +886,30 @@
         "x": 12,
         "y": 1
       },
-      "highlightCards": true,
       "id": 524,
       "interval": "",
-      "legend": {
-        "show": true
-      },
-      "nullPointMode": "as empty",
-      "pageSize": 15,
-      "seriesFilterIndex": -1,
-      "statusmap": {
-        "ConfigVersion": "v1"
+      "options": {
+        "colWidth": 0.29,
+        "legend": {
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "rowHeight": 0.79,
+        "showValue": "auto",
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "single",
+          "sort": "none"
+        }
       },
       "targets": [
         {
           "alias": "[[tag_system-name]]",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -762,36 +943,12 @@
         }
       ],
       "title": "Global Status Map",
-      "tooltip": {
-        "extraInfo": "",
-        "freezeOnClick": true,
-        "items": [],
-        "show": true,
-        "showExtraInfo": false,
-        "showItems": false
-      },
-      "type": "flant-statusmap-panel",
-      "useMax": true,
-      "usingPagination": false,
-      "xAxis": {
-        "show": true
-      },
-      "yAxis": {
-        "maxWidth": -1,
-        "minWidth": -1,
-        "show": true
-      },
-      "yAxisSort": "metrics",
-      "yLabel": {
-        "delimiter": "",
-        "labelTemplate": "",
-        "usingSplitLabel": false
-      }
+      "type": "status-history"
     },
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
       "fieldConfig": {
         "defaults": {
@@ -833,7 +990,6 @@
         "y": 4
       },
       "id": 179,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
@@ -847,11 +1003,17 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -894,6 +1056,10 @@
     },
     {
       "collapsed": false,
+      "datasource": {
+        "type": "prometheus",
+        "uid": "b478bc1e-c4b0-421a-a56f-5fd65e0cafe7"
+      },
       "gridPos": {
         "h": 1,
         "w": 24,
@@ -903,13 +1069,22 @@
       "id": 4,
       "panels": [],
       "repeat": "idrac_host",
+      "targets": [
+        {
+          "datasource": {
+            "type": "prometheus",
+            "uid": "b478bc1e-c4b0-421a-a56f-5fd65e0cafe7"
+          },
+          "refId": "A"
+        }
+      ],
       "title": "$idrac_host",
       "type": "row"
     },
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
       "fieldConfig": {
         "defaults": {
@@ -952,7 +1127,6 @@
         "y": 8
       },
       "id": 6,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
@@ -966,11 +1140,17 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [],
           "measurement": "idrac-hosts",
           "orderByTime": "ASC",
@@ -1002,7 +1182,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1062,7 +1242,6 @@
         "y": 8
       },
       "id": 9,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "background",
@@ -1076,11 +1255,17 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [],
           "measurement": "idrac-hosts",
           "orderByTime": "ASC",
@@ -1114,7 +1299,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1168,7 +1353,6 @@
         "y": 8
       },
       "id": 2,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "background",
@@ -1182,11 +1366,17 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [],
           "measurement": "idrac-hosts",
           "orderByTime": "ASC",
@@ -1220,7 +1410,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1262,7 +1452,6 @@
         "y": 8
       },
       "id": 8,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
@@ -1273,14 +1462,20 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
+          "fields": "/^idrac\\-hosts\\.system\\-servicetag$/",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [],
           "measurement": "idrac-hosts",
           "orderByTime": "ASC",
@@ -1312,60 +1507,118 @@
       "type": "stat"
     },
     {
-      "aliasColors": {
-        "System Watts": "rgb(91, 151, 235)"
-      },
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
       "fieldConfig": {
         "defaults": {
-          "links": []
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 1600
+              },
+              {
+                "color": "red",
+                "value": 1974
+              }
+            ]
+          },
+          "unit": "watt"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "System Watts"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "rgb(91, 151, 235)",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
-      "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 8,
         "x": 8,
         "y": 8
       },
-      "hiddenSeries": false,
       "id": 147,
-      "legend": {
-        "avg": false,
-        "current": true,
-        "max": true,
-        "min": true,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "links": [],
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [
+            "lastNotNull",
+            "max",
+            "min"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "percentage": false,
-      "pluginVersion": "8.4.0",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "alias": "System Watts",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -1408,118 +1661,138 @@
           ]
         }
       ],
-      "thresholds": [
-        {
-          "colorMode": "warning",
-          "fill": false,
-          "line": true,
-          "op": "gt",
-          "value": 1600,
-          "yaxis": "left"
-        },
-        {
-          "colorMode": "critical",
-          "fill": true,
-          "line": true,
-          "op": "gt",
-          "value": 1974,
-          "yaxis": "left"
-        }
-      ],
-      "timeRegions": [],
       "title": "System Watts",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "format": "watt",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
-      "aliasColors": {
-        "CPU 1 Temp": "rgb(91, 151, 235)",
-        "CPU 2 Temp": "rgb(90, 161, 80)"
-      },
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
-      "decimals": 0,
       "fieldConfig": {
         "defaults": {
-          "links": []
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "decimals": 0,
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 70
+              },
+              {
+                "color": "red",
+                "value": 84
+              }
+            ]
+          },
+          "unit": "celsius"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "CPU 1 Temp"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "rgb(91, 151, 235)",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "CPU 2 Temp"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "rgb(90, 161, 80)",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
-      "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
         "h": 7,
         "w": 8,
         "x": 16,
         "y": 8
       },
-      "hiddenSeries": false,
       "id": 35,
-      "legend": {
-        "avg": true,
-        "current": true,
-        "max": true,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
-      },
-      "percentage": false,
-      "pluginVersion": "8.4.0",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [
-        {
-          "alias": "CPU 1 Temp",
-          "yaxis": 1
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
         },
-        {
-          "alias": "CPU 2 Temp",
-          "yaxis": 1
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "none"
         }
-      ],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      },
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "alias": "CPU 1 Temp",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -1569,6 +1842,10 @@
         },
         {
           "alias": "CPU 2 Temp",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -1617,60 +1894,13 @@
           ]
         }
       ],
-      "thresholds": [
-        {
-          "colorMode": "warning",
-          "fill": false,
-          "line": true,
-          "op": "gt",
-          "value": 70,
-          "yaxis": "left"
-        },
-        {
-          "colorMode": "critical",
-          "fill": true,
-          "fillColor": "rgba(50, 116, 217, 0.2)",
-          "line": true,
-          "lineColor": "rgba(31, 96, 196, 0.6)",
-          "op": "gt",
-          "value": 84,
-          "yaxis": "left"
-        }
-      ],
-      "timeRegions": [],
       "title": "CPU Temp",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "decimals": 0,
-          "format": "celsius",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1730,7 +1960,6 @@
         "y": 10
       },
       "id": 444,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "background",
@@ -1744,11 +1973,17 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [],
           "measurement": "idrac-hosts",
           "orderByTime": "ASC",
@@ -1782,7 +2017,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1833,7 +2068,6 @@
         "y": 10
       },
       "id": 90,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "background",
@@ -1847,11 +2081,17 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [],
           "measurement": "idrac-hosts",
           "orderByTime": "ASC",
@@ -1883,7 +2123,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
       "fieldConfig": {
         "defaults": {
@@ -1946,7 +2186,6 @@
         "y": 10
       },
       "id": 91,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "background",
@@ -1960,11 +2199,17 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [],
           "measurement": "idrac-hosts",
           "orderByTime": "ASC",
@@ -1996,7 +2241,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2038,7 +2283,6 @@
         "y": 10
       },
       "id": 21,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "none",
@@ -2049,14 +2293,20 @@
           "calcs": [
             "lastNotNull"
           ],
-          "fields": "",
+          "fields": "/^bios\\-version$/",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [],
           "measurement": "idrac-hosts",
           "orderByTime": "ASC",
@@ -2088,7 +2338,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2148,7 +2398,6 @@
         "y": 12
       },
       "id": 405,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "background",
@@ -2162,11 +2411,17 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [],
           "measurement": "idrac-hosts",
           "orderByTime": "ASC",
@@ -2200,7 +2455,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2260,7 +2515,6 @@
         "y": 12
       },
       "id": 406,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "background",
@@ -2274,11 +2528,17 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [],
           "measurement": "idrac-hosts",
           "orderByTime": "ASC",
@@ -2312,7 +2572,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2372,7 +2632,6 @@
         "y": 12
       },
       "id": 407,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "background",
@@ -2386,11 +2645,17 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [],
           "measurement": "idrac-hosts",
           "orderByTime": "ASC",
@@ -2424,7 +2689,7 @@
     {
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
       "fieldConfig": {
         "defaults": {
@@ -2478,7 +2743,6 @@
         "y": 12
       },
       "id": 93,
-      "links": [],
       "maxDataPoints": 100,
       "options": {
         "colorMode": "value",
@@ -2492,11 +2756,17 @@
           "fields": "",
           "values": false
         },
-        "textMode": "auto"
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
       },
-      "pluginVersion": "8.4.0",
+      "pluginVersion": "11.0.0",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [],
           "measurement": "idrac-hosts",
           "orderByTime": "ASC",
@@ -2526,72 +2796,128 @@
       "type": "stat"
     },
     {
-      "columns": [],
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
-      "fontSize": "90%",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Time"
+              },
+              {
+                "id": "custom.hidden",
+                "value": true
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "system-osname"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "OS Name"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "system-osversion"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "OS Version"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          }
+        ]
+      },
       "gridPos": {
-        "h": 3,
+        "h": 4,
         "w": 7,
         "x": 0,
         "y": 14
       },
       "id": 649,
-      "links": [],
-      "pluginVersion": "6.7.2",
-      "showHeader": true,
-      "sort": {
-        "col": 0,
-        "desc": true
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
       },
-      "styles": [
-        {
-          "$$hashKey": "object:3422",
-          "alias": "Time",
-          "align": "auto",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "hidden"
-        },
-        {
-          "$$hashKey": "object:4195",
-          "alias": "OS Name",
-          "align": "auto",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "system-osname",
-          "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        },
-        {
-          "$$hashKey": "object:4214",
-          "alias": "OS Version",
-          "align": "auto",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "system-osversion",
-          "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        }
-      ],
+      "pluginVersion": "11.0.0",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [],
           "limit": "1",
           "measurement": "idrac-hosts",
@@ -2618,6 +2944,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [],
           "limit": "1",
           "measurement": "idrac-hosts",
@@ -2645,147 +2975,262 @@
         }
       ],
       "title": "OS Information",
-      "transform": "timeseries_to_rows",
-      "type": "table-old"
+      "transformations": [
+        {
+          "id": "seriesToRows",
+          "options": {
+            "reducers": []
+          }
+        },
+        {
+          "id": "merge",
+          "options": {}
+        },
+        {
+          "id": "groupBy",
+          "options": {
+            "fields": {
+              "Time": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "system-osname": {
+                "aggregations": [],
+                "operation": "groupby"
+              },
+              "system-osversion": {
+                "aggregations": [],
+                "operation": "groupby"
+              }
+            }
+          }
+        }
+      ],
+      "type": "table"
     },
     {
-      "columns": [],
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
-      "fontSize": "100%",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Time"
+              },
+              {
+                "id": "custom.hidden",
+                "value": true
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "log-number"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Entry #"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.hidden",
+                "value": true
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "log-dates"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Date & Time"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "unit",
+                "value": "time: MM/DD/YY h:mm:ss a"
+              },
+              {
+                "id": "custom.align",
+                "value": "center"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "log-entry"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Entry"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "log-severity"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Severity"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-text"
+                }
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "#E0B400",
+                      "value": null
+                    },
+                    {
+                      "color": "#37872D",
+                      "value": 2.9
+                    },
+                    {
+                      "color": "#C4162A",
+                      "value": 3.9
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "1": {
+                        "index": 0,
+                        "text": "Other"
+                      },
+                      "2": {
+                        "index": 1,
+                        "text": "Unkown"
+                      },
+                      "3": {
+                        "index": 2,
+                        "text": "OK"
+                      },
+                      "4": {
+                        "index": 3,
+                        "text": "Non-Critical"
+                      },
+                      "5": {
+                        "index": 4,
+                        "text": "Critical"
+                      },
+                      "6": {
+                        "index": 5,
+                        "text": "Non-Recoverable"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
       "gridPos": {
-        "h": 19,
+        "h": 20,
         "w": 9,
         "x": 7,
         "y": 14
       },
       "id": 332,
-      "links": [],
-      "pageSize": 16,
-      "pluginVersion": "6.6.2",
-      "showHeader": true,
-      "sort": {
-        "col": 2,
-        "desc": true
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
       },
-      "styles": [
-        {
-          "$$hashKey": "object:1966",
-          "alias": "Time",
-          "align": "auto",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "hidden"
-        },
-        {
-          "$$hashKey": "object:1967",
-          "alias": "Entry #",
-          "align": "auto",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 0,
-          "mappingType": 1,
-          "pattern": "log-number",
-          "thresholds": [],
-          "type": "hidden",
-          "unit": "short"
-        },
-        {
-          "$$hashKey": "object:1968",
-          "alias": "Date & Time",
-          "align": "center",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "MM/DD/YY h:mm:ss a",
-          "link": false,
-          "mappingType": 1,
-          "pattern": "log-dates",
-          "thresholds": [],
-          "type": "date",
-          "unit": "short"
-        },
-        {
-          "$$hashKey": "object:1969",
-          "alias": "Entry",
-          "align": "auto",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "log-entry",
-          "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        },
-        {
-          "$$hashKey": "object:1970",
-          "alias": "Severity",
-          "align": "",
-          "colorMode": "value",
-          "colors": [
-            "#E0B400",
-            "#37872D",
-            "#C4162A"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 0,
-          "mappingType": 1,
-          "pattern": "log-severity",
-          "thresholds": [
-            "2.9",
-            "3.9"
-          ],
-          "type": "string",
-          "unit": "short",
-          "valueMaps": [
-            {
-              "$$hashKey": "object:2037",
-              "text": "Other",
-              "value": "1"
-            },
-            {
-              "$$hashKey": "object:2038",
-              "text": "Unknown",
-              "value": "2"
-            },
-            {
-              "$$hashKey": "object:2039",
-              "text": "OK",
-              "value": "3"
-            },
-            {
-              "$$hashKey": "object:2040",
-              "text": "Non-Critical",
-              "value": "4"
-            },
-            {
-              "$$hashKey": "object:2041",
-              "text": "Critical",
-              "value": "5"
-            },
-            {
-              "$$hashKey": "object:2042",
-              "text": "Non-Recoverable",
-              "value": "6"
-            }
-          ]
-        }
-      ],
+      "pluginVersion": "11.0.0",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -2821,6 +3266,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -2854,6 +3303,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -2887,67 +3340,146 @@
           ]
         }
       ],
-      "timeFrom": "1m",
       "title": "System Log Entries",
-      "transform": "table",
-      "type": "table-old"
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {
+            "reducers": []
+          }
+        }
+      ],
+      "type": "table"
     },
     {
-      "aliasColors": {
-        "Exhaust Temp": "rgb(90, 161, 80)",
-        "Inlet Temp": "rgb(91, 151, 235)"
-      },
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
-      "decimals": 0,
       "fieldConfig": {
         "defaults": {
-          "links": []
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 10,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "decimals": 0,
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "transparent",
+                "value": null
+              },
+              {
+                "color": "orange",
+                "value": 42
+              },
+              {
+                "color": "red",
+                "value": 47
+              }
+            ]
+          },
+          "unit": "celsius"
         },
-        "overrides": []
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Exhaust Temp"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "rgb(90, 161, 80)",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Inlet Temp"
+            },
+            "properties": [
+              {
+                "id": "color",
+                "value": {
+                  "fixedColor": "rgb(91, 151, 235)",
+                  "mode": "fixed"
+                }
+              }
+            ]
+          }
+        ]
       },
-      "fill": 1,
-      "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 8,
         "x": 16,
         "y": 15
       },
-      "hiddenSeries": false,
       "id": 52,
-      "legend": {
-        "avg": true,
-        "current": true,
-        "max": true,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": true
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [
+            "mean",
+            "lastNotNull",
+            "max"
+          ],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "percentage": false,
-      "pluginVersion": "8.4.0",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "alias": "Inlet Temp",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -2997,6 +3529,10 @@
         },
         {
           "alias": "Exhaust Temp",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -3045,225 +3581,319 @@
           ]
         }
       ],
-      "thresholds": [
-        {
-          "colorMode": "warning",
-          "fill": false,
-          "line": true,
-          "op": "gt",
-          "value": 42,
-          "yaxis": "left"
-        },
-        {
-          "colorMode": "critical",
-          "fill": true,
-          "line": true,
-          "op": "gt",
-          "value": 47,
-          "yaxis": "left"
-        }
-      ],
-      "timeRegions": [],
       "title": "Air Temp",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "decimals": 0,
-          "format": "celsius",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
-      "columns": [],
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
-      "fontSize": "100%",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "center",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "filterable": false,
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Time"
+              },
+              {
+                "id": "custom.hidden",
+                "value": true
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "disks-name"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Disk Name"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align",
+                "value": "auto"
+              },
+              {
+                "id": "custom.width",
+                "value": 200
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "disks-state"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Status"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "custom.align",
+                "value": "left"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "#37872D",
+                      "value": null
+                    },
+                    {
+                      "color": "#8F3BB8",
+                      "value": 3.9
+                    },
+                    {
+                      "color": "#C4162A",
+                      "value": 7.9
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "1": {
+                        "index": 0,
+                        "text": "Unkown"
+                      },
+                      "2": {
+                        "color": "dark-blue",
+                        "index": 1,
+                        "text": "Ready"
+                      },
+                      "3": {
+                        "color": "dark-green",
+                        "index": 2,
+                        "text": "Online"
+                      },
+                      "4": {
+                        "color": "dark-yellow",
+                        "index": 3,
+                        "text": "Foreign"
+                      },
+                      "5": {
+                        "color": "dark-red",
+                        "index": 4,
+                        "text": "Offline"
+                      },
+                      "6": {
+                        "color": "dark-yellow",
+                        "index": 5,
+                        "text": "Blocked"
+                      },
+                      "7": {
+                        "color": "dark-red",
+                        "index": 6,
+                        "text": "Not Operational"
+                      },
+                      "8": {
+                        "color": "dark-purple",
+                        "index": 7,
+                        "text": "Non-Raid"
+                      },
+                      "9": {
+                        "color": "dark-red",
+                        "index": 8,
+                        "text": "Removed"
+                      },
+                      "10": {
+                        "color": "dark-orange",
+                        "index": 9,
+                        "text": "Read-Only"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              },
+              {
+                "id": "custom.width",
+                "value": 80
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "disks-predictivefail"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Predictive Fail Alarm"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "custom.align",
+                "value": "center"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "transparent",
+                      "value": null
+                    },
+                    {
+                      "color": "#C4162A",
+                      "value": 0.8
+                    },
+                    {
+                      "color": "#C4162A",
+                      "value": 0.9
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "0": {
+                        "index": 0,
+                        "text": "No"
+                      },
+                      "1": {
+                        "index": 1,
+                        "text": "YES"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              },
+              {
+                "id": "custom.width",
+                "value": 150
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "disks-capacity"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Capacity"
+              },
+              {
+                "id": "unit",
+                "value": "decmbytes"
+              },
+              {
+                "id": "custom.align"
+              },
+              {
+                "id": "custom.width",
+                "value": 100
+              }
+            ]
+          }
+        ]
+      },
       "gridPos": {
         "h": 16,
         "w": 7,
         "x": 0,
-        "y": 17
+        "y": 18
       },
       "id": 298,
-      "showHeader": true,
-      "sort": {
-        "col": 0,
-        "desc": true
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
       },
-      "styles": [
-        {
-          "$$hashKey": "object:15372",
-          "alias": "Time",
-          "align": "auto",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "hidden"
-        },
-        {
-          "$$hashKey": "object:15373",
-          "alias": "Disk Name",
-          "align": "auto",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "disks-name",
-          "preserveFormat": false,
-          "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        },
-        {
-          "$$hashKey": "object:15374",
-          "alias": "Status",
-          "align": "left",
-          "colorMode": "cell",
-          "colors": [
-            "#37872D",
-            "#C4162A",
-            "#8F3BB8"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "mappingType": 1,
-          "pattern": "disks-state",
-          "thresholds": [
-            "3.9",
-            "7.9"
-          ],
-          "type": "string",
-          "unit": "short",
-          "valueMaps": [
-            {
-              "$$hashKey": "object:15435",
-              "text": "Unknown",
-              "value": "1"
-            },
-            {
-              "$$hashKey": "object:15436",
-              "text": "Ready",
-              "value": "2"
-            },
-            {
-              "$$hashKey": "object:15437",
-              "text": "Online",
-              "value": "3"
-            },
-            {
-              "$$hashKey": "object:15438",
-              "text": "Foreign",
-              "value": "4"
-            },
-            {
-              "$$hashKey": "object:15439",
-              "text": "Offline",
-              "value": "5"
-            },
-            {
-              "$$hashKey": "object:15440",
-              "text": "Blocked",
-              "value": "6"
-            },
-            {
-              "$$hashKey": "object:15441",
-              "text": "Failed",
-              "value": "7"
-            },
-            {
-              "$$hashKey": "object:15442",
-              "text": "Non-Raid",
-              "value": "8"
-            },
-            {
-              "$$hashKey": "object:15443",
-              "text": "Removed",
-              "value": "9"
-            },
-            {
-              "$$hashKey": "object:15444",
-              "text": "Read-Only",
-              "value": "10"
-            }
-          ]
-        },
-        {
-          "$$hashKey": "object:15375",
-          "alias": "Predictive Fail Alarm",
-          "align": "center",
-          "colorMode": "row",
-          "colors": [
-            "rgba(245, 54, 54, 0)",
-            "#C4162A",
-            "#C4162A"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "disks-predictivefail",
-          "thresholds": [
-            "0.8",
-            "0.9"
-          ],
-          "type": "string",
-          "unit": "short",
-          "valueMaps": [
-            {
-              "$$hashKey": "object:15471",
-              "text": "No",
-              "value": "0"
-            },
-            {
-              "$$hashKey": "object:15472",
-              "text": "YES",
-              "value": "1"
-            }
-          ]
-        },
-        {
-          "$$hashKey": "object:15376",
-          "alias": "Capacity",
-          "align": "auto",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 0,
-          "mappingType": 1,
-          "pattern": "disks-capacity",
-          "thresholds": [],
-          "type": "number",
-          "unit": "decmbytes"
-        }
-      ],
+      "pluginVersion": "11.0.0",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -3297,6 +3927,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -3330,6 +3964,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -3364,61 +4002,109 @@
         }
       ],
       "title": "Physical Disk Status",
-      "transform": "table",
-      "type": "table-old"
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {
+            "reducers": []
+          }
+        }
+      ],
+      "type": "table"
     },
     {
-      "aliasColors": {},
-      "bars": false,
-      "dashLength": 10,
-      "dashes": false,
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
       "fieldConfig": {
         "defaults": {
-          "links": []
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "RPM",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "never",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "line+area"
+            }
+          },
+          "decimals": 0,
+          "links": [],
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "red"
+              },
+              {
+                "color": "orange",
+                "value": 720
+              },
+              {
+                "color": "transparent",
+                "value": 960
+              }
+            ]
+          },
+          "unit": "none"
         },
         "overrides": []
       },
-      "fill": 0,
-      "fillGradient": 0,
       "gridPos": {
         "h": 6,
         "w": 8,
         "x": 16,
         "y": 21
       },
-      "hiddenSeries": false,
       "id": 70,
-      "legend": {
-        "avg": false,
-        "current": false,
-        "max": false,
-        "min": false,
-        "show": true,
-        "total": false,
-        "values": false
-      },
-      "lines": true,
-      "linewidth": 1,
-      "nullPointMode": "null",
       "options": {
-        "alertThreshold": true
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "maxHeight": 600,
+          "mode": "multi",
+          "sort": "none"
+        }
       },
-      "percentage": false,
-      "pluginVersion": "8.4.0",
-      "pointradius": 2,
-      "points": false,
-      "renderer": "flot",
-      "seriesOverrides": [],
-      "spaceLength": 10,
-      "stack": false,
-      "steppedLine": false,
+      "pluginVersion": "10.4.2",
       "targets": [
         {
           "alias": "Fan 1",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -3462,6 +4148,10 @@
         },
         {
           "alias": "Fan 2",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -3505,6 +4195,10 @@
         },
         {
           "alias": "Fan 3",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -3548,6 +4242,10 @@
         },
         {
           "alias": "Fan 4",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -3591,6 +4289,10 @@
         },
         {
           "alias": "Fan 5",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -3634,6 +4336,10 @@
         },
         {
           "alias": "Fan 6",
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -3676,206 +4382,240 @@
           ]
         }
       ],
-      "thresholds": [
-        {
-          "$$hashKey": "object:1180",
-          "colorMode": "warning",
-          "fill": false,
-          "line": true,
-          "op": "lt",
-          "value": 960,
-          "yaxis": "left"
-        },
-        {
-          "$$hashKey": "object:1181",
-          "colorMode": "critical",
-          "fill": true,
-          "line": true,
-          "op": "lt",
-          "value": 720,
-          "yaxis": "left"
-        }
-      ],
-      "timeRegions": [],
       "title": "Fan Speed",
-      "tooltip": {
-        "shared": true,
-        "sort": 0,
-        "value_type": "individual"
-      },
-      "type": "graph",
-      "xaxis": {
-        "mode": "time",
-        "show": true,
-        "values": []
-      },
-      "yaxes": [
-        {
-          "$$hashKey": "object:1152",
-          "decimals": 0,
-          "format": "none",
-          "label": "RPM",
-          "logBase": 1,
-          "show": true
-        },
-        {
-          "$$hashKey": "object:1153",
-          "format": "short",
-          "logBase": 1,
-          "show": true
-        }
-      ],
-      "yaxis": {
-        "align": false
-      }
+      "type": "timeseries"
     },
     {
-      "columns": [],
       "datasource": {
         "type": "influxdb",
-        "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+        "uid": "${DS_INFLUXDB_- IDRAC}"
       },
-      "fontSize": "100%",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": "auto",
+            "cellOptions": {
+              "type": "auto"
+            },
+            "inspect": false
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Time"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Time"
+              },
+              {
+                "id": "custom.hidden",
+                "value": true
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "nic-name"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Name"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "nic-vendor"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Vendor"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "nic-status"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Status"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "custom.cellOptions",
+                "value": {
+                  "type": "color-background"
+                }
+              },
+              {
+                "id": "custom.align"
+              },
+              {
+                "id": "thresholds",
+                "value": {
+                  "mode": "absolute",
+                  "steps": [
+                    {
+                      "color": "#37872D"
+                    },
+                    {
+                      "color": "rgba(224, 180, 0, 0)",
+                      "value": 1.9
+                    },
+                    {
+                      "color": "#C4162A",
+                      "value": 2.1
+                    }
+                  ]
+                }
+              },
+              {
+                "id": "mappings",
+                "value": [
+                  {
+                    "options": {
+                      "1": {
+                        "index": 0,
+                        "text": "Connected"
+                      },
+                      "2": {
+                        "index": 1,
+                        "text": "Disconnected"
+                      },
+                      "3": {
+                        "index": 2,
+                        "text": "Driver Bad"
+                      },
+                      "4": {
+                        "index": 3,
+                        "text": "Driver Disabled"
+                      },
+                      "10": {
+                        "index": 4,
+                        "text": "Initializing"
+                      },
+                      "11": {
+                        "index": 5,
+                        "text": "Resetting"
+                      },
+                      "12": {
+                        "index": 6,
+                        "text": "Closing"
+                      },
+                      "13": {
+                        "index": 7,
+                        "text": "Not Ready"
+                      }
+                    },
+                    "type": "value"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "nic-current_mac"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Current MAC Address"
+              },
+              {
+                "id": "unit",
+                "value": "short"
+              },
+              {
+                "id": "decimals",
+                "value": 2
+              },
+              {
+                "id": "custom.align"
+              }
+            ]
+          }
+        ]
+      },
       "gridPos": {
-        "h": 6,
+        "h": 7,
         "w": 8,
         "x": 16,
         "y": 27
       },
       "id": 564,
-      "showHeader": true,
-      "sort": {
-        "col": 1,
-        "desc": false
+      "options": {
+        "cellHeight": "sm",
+        "footer": {
+          "countRows": false,
+          "fields": "",
+          "reducer": [
+            "sum"
+          ],
+          "show": false
+        },
+        "showHeader": true
       },
-      "styles": [
-        {
-          "$$hashKey": "object:556",
-          "alias": "Time",
-          "align": "auto",
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "pattern": "Time",
-          "type": "hidden"
-        },
-        {
-          "$$hashKey": "object:3334",
-          "alias": "Name",
-          "align": "auto",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "nic-name",
-          "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        },
-        {
-          "$$hashKey": "object:3385",
-          "alias": "Vendor",
-          "align": "auto",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "mappingType": 1,
-          "pattern": "nic-vendor",
-          "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        },
-        {
-          "$$hashKey": "object:3434",
-          "alias": "Status",
-          "align": "auto",
-          "colorMode": "cell",
-          "colors": [
-            "#37872D",
-            "rgba(224, 180, 0, 0)",
-            "#C4162A"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "mappingType": 1,
-          "pattern": "nic-status",
-          "thresholds": [
-            "1.9",
-            "2.1"
-          ],
-          "type": "string",
-          "unit": "short",
-          "valueMaps": [
-            {
-              "$$hashKey": "object:3875",
-              "text": "Connected",
-              "value": "1"
-            },
-            {
-              "$$hashKey": "object:3877",
-              "text": "Disconnected",
-              "value": "2"
-            },
-            {
-              "$$hashKey": "object:3893",
-              "text": "Driver Bad",
-              "value": "3"
-            },
-            {
-              "$$hashKey": "object:3909",
-              "text": "Driver Disabled",
-              "value": "4"
-            },
-            {
-              "$$hashKey": "object:3911",
-              "text": "Initalizing",
-              "value": "10"
-            },
-            {
-              "$$hashKey": "object:3941",
-              "text": "Resetting",
-              "value": "11"
-            },
-            {
-              "$$hashKey": "object:3957",
-              "text": "Closing",
-              "value": "12"
-            },
-            {
-              "$$hashKey": "object:3959",
-              "text": "Not Ready",
-              "value": "13"
-            }
-          ]
-        },
-        {
-          "$$hashKey": "object:3459",
-          "alias": "Current MAC Address",
-          "align": "auto",
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 2,
-          "link": false,
-          "mappingType": 1,
-          "pattern": "nic-current_mac",
-          "preserveFormat": false,
-          "sanitize": false,
-          "thresholds": [],
-          "type": "string",
-          "unit": "short"
-        }
-      ],
+      "pluginVersion": "11.0.0",
       "targets": [
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -3909,6 +4649,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -3942,6 +4686,10 @@
           ]
         },
         {
+          "datasource": {
+            "type": "influxdb",
+            "uid": "${DS_INFLUXDB_- IDRAC}"
+          },
           "groupBy": [
             {
               "params": [
@@ -3975,15 +4723,20 @@
           ]
         }
       ],
-      "timeFrom": "1m",
       "title": "Network Interfaces",
-      "transform": "table",
-      "type": "table-old"
+      "transformations": [
+        {
+          "id": "merge",
+          "options": {
+            "reducers": []
+          }
+        }
+      ],
+      "type": "table"
     }
   ],
   "refresh": "10s",
-  "schemaVersion": 35,
-  "style": "dark",
+  "schemaVersion": 39,
   "tags": [
     "idrac",
     "telegraf",
@@ -3995,7 +4748,7 @@
         "current": {},
         "datasource": {
           "type": "influxdb",
-          "uid": "${DS_INFLUXDB_(GRAFANA-01)}"
+          "uid": "${DS_INFLUXDB_- IDRAC}"
         },
         "definition": "SHOW TAG VALUES FROM \"idrac-hosts\" WITH KEY=\"system-name\"",
         "hide": 0,
@@ -4020,6 +4773,7 @@
     "from": "now-3h",
     "to": "now"
   },
+  "timeRangeUpdatedDuringEditOrView": false,
   "timepicker": {
     "hidden": false,
     "refresh_intervals": [
@@ -4038,6 +4792,6 @@
   "timezone": "",
   "title": "iDRAC - Host Stats",
   "uid": "O19gr0jZk",
-  "version": 131,
+  "version": 1,
   "weekStart": ""
 }
